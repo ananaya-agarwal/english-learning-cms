@@ -32,8 +32,3 @@ Everything runs inside **one modern web app**.
 | Hosting | Vercel |
 
 ---
-
-## 🏗️ System Architecture
-
-Content is organized like this:
-
