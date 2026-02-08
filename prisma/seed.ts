@@ -1,5 +1,4 @@
-import pkg from "@prisma/client";
-const { PrismaClient, ActivityType } = pkg;
+import { PrismaClient, ActivityType } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
