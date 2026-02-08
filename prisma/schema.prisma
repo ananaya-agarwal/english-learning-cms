@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Journey {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  description String?
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  levels Level[]
+}
+
+model Level {
+  id          Int       @id @default(autoincrement())
+  journey     Journey   @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  journeyId   Int
+  order       Int
+  title       String
+  description String?
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  lessons Lesson[]
+
+  @@index([journeyId, order])
+}
+
+model Lesson {
+  id          Int       @id @default(autoincrement())
+  level       Level     @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  levelId     Int
+  order       Int
+  title       String
+  objective   String?
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  activities Activity[]
+
+  @@index([levelId, order])
+}
+
+model Activity {
+  id          Int           @id @default(autoincrement())
+  lesson      Lesson        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId    Int
+  order       Int
+  type        ActivityType
+  isPublished Boolean       @default(false)
+  content     Json
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([lessonId, order])
+}
+
+enum ActivityType {
+  VIDEO
+  READING
+  QUIZ
+  SPEAKING
+}

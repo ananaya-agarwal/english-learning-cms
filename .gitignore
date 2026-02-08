@@ -1,0 +1,10 @@
+node_modules
+.next
+# Keep environment variables out of version control
+.env
+.env.local
+.env.*.local
+# Local SQLite DB (Vercel uses DATABASE_URL from env)
+*.db
+prisma/dev.db
+/src/generated/prisma
